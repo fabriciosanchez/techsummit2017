@@ -13,84 +13,113 @@ namespace Demo1ZipperApp
             string selectedOption = string.Empty;
             int convertedOption = 0;
 
-            Console.WriteLine("");
-            Console.WriteLine("------------------------------------------------------------------------------------------------------------");
-            Console.WriteLine("-                              ZIPPER APP - A ZIP UTILITY BUILT IN .NET CORE                               -");
-            Console.WriteLine("------------------------------------------------------------------------------------------------------------");
-            Console.WriteLine("");
-            Console.WriteLine("Please, select the operation that you would like to execute. To choose, type operation number + 'Enter'.");
-            Console.WriteLine("");
-            Console.WriteLine("(0) To close the app");
-            Console.WriteLine("(1) Create a new zip file based in a directory");
-            Console.WriteLine("");
-            Console.WriteLine("------------------------------------------------------------------------------------------------------------");
-            Console.WriteLine("");
-            
-            selectedOption = Console.ReadLine();
+            do
+            {
+                Console.WriteLine("");
+                Console.WriteLine("------------------------------------------------------------------------------------------------------------");
+                Console.WriteLine("-                              ZIPPER APP - A ZIP UTILITY BUILT IN .NET CORE                               -");
+                Console.WriteLine("------------------------------------------------------------------------------------------------------------");
+                Console.WriteLine("");
+                Console.WriteLine("Please, select the operation that you would like to execute. To choose, type operation number + 'Enter'.");
+                Console.WriteLine("");
+                Console.WriteLine("(0) To close the app");
+                Console.WriteLine("(1) Create a new zip file based in a directory");
+                Console.WriteLine("");
+                Console.WriteLine("------------------------------------------------------------------------------------------------------------");
+                Console.WriteLine("");
 
-            if(selectedOption == "0")
-            {
-                Environment.Exit(0);
-            }
-            else
-            {
-                if(!int.TryParse(selectedOption, out convertedOption))
+                selectedOption = Console.ReadLine();
+
+                if (selectedOption == "0")
                 {
-                    Console.WriteLine("Ops! Seems like the provided option is invalid. Please, select a valid option.");
-                    Console.WriteLine("");
+                    Environment.Exit(0);
                 }
                 else
                 {
-                    switch(selectedOption)
+                    if (!int.TryParse(selectedOption, out convertedOption))
                     {
-                        case "1":
-                            string pathToBeZipped = string.Empty;
-                            string outputName = string.Empty;
-                            string password = string.Empty;
+                        Console.WriteLine("");
+                        Console.WriteLine("Ops! Seems like the provided option is invalid. Please, select a valid option.");
+                        Console.WriteLine("");
+                    }
+                    else
+                    {
+                        switch (selectedOption)
+                        {
+                            case "1":
+                                string pathToBeZipped = string.Empty;
+                                string outputName = string.Empty;
+                                string password = string.Empty;
 
-                            GetInfoToGenerateZipBundle(out pathToBeZipped, out outputName, out password);
+                                GetInfoToGenerateZipBundle(out pathToBeZipped, out outputName, out password);
 
-                            Console.WriteLine("Generating zip bundle. This operation can take some minutes...");
+                                Console.WriteLine("");
+                                Console.WriteLine("Generating zip bundle. This operation can take some minutes...");
 
-                            try
-                            {
-                                CreatesZipBundle(pathToBeZipped, outputName, password);
-                                Console.WriteLine("Success! \nThe " + outputName + " was generated on the specified path.");
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine("Ops! Something went wrong. The details are being showed below:\n" + ex.Message);
-                            }
-                        break;
+                                try
+                                {
+                                    CreatesZipBundle(pathToBeZipped, outputName, password);
+                                    Console.WriteLine("");
+                                    Console.WriteLine("Success! \nThe " + outputName + " was generated on the specified path.");
+                                    Console.WriteLine("");
+                                    Console.WriteLine("Done!");
+                                    selectedOption = VerifiesIfUserWouldLikeToContinue();
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine("");
+                                    Console.WriteLine("Ops! Something went wrong. The details are being showed below:\n" + ex.Message);
+                                    Console.WriteLine("");
+                                    Console.WriteLine("Done!");
+                                    selectedOption = VerifiesIfUserWouldLikeToContinue();
+                                }
+                                break;
+                        }
                     }
                 }
-            }
+            } while (selectedOption == "r");
+        }
+
+        private static string VerifiesIfUserWouldLikeToContinue()
+        {
+            string selectedOption;
+            Console.WriteLine("");
+            Console.WriteLine("");
+            Console.WriteLine("");
+            Console.WriteLine("Would you like to execute another operation? Please, type 'r'.");
+            selectedOption = Console.ReadLine();
+            return selectedOption;
         }
 
         private static void GetInfoToGenerateZipBundle(out string pathToBeZipped, out string outputName, out string password)
         {
             do
             {
+                Console.WriteLine("");
                 Console.WriteLine("Please, inform the path to directory that you would like to zip files: ");
                 pathToBeZipped = Console.ReadLine();
 
                 if (pathToBeZipped == null || pathToBeZipped == "")
                 {
+                    Console.WriteLine("");
                     Console.WriteLine("Seems like you haven't informed the entry path. This information is required. So...");
                 }
 
             } while (pathToBeZipped == null || pathToBeZipped == "");
 
+            Console.WriteLine("");
             Console.WriteLine("Would you like to add some password to you file? If yes, please type it. If not, just press 'Enter'.");
             password = Console.ReadLine();
 
             do
             {
+                Console.WriteLine("");
                 Console.WriteLine("Please, inform the name of the zipped (output) file: ");
                 outputName = Console.ReadLine();
 
                 if (outputName == null || outputName == "")
                 {
+                    Console.WriteLine("");
                     Console.WriteLine("Seems like you haven't informed the output name. This information is required. So...");
                 }
 
