@@ -15,9 +15,10 @@ namespace ZipUtilityStandard.Utils
 
             FileStream fsOut = File.Create(outPathname);
             ZipOutputStream zipStream = new ZipOutputStream(fsOut);
-
+            
+            
             zipStream.SetLevel(3); //0-9, 9 being the highest level of compression
-
+            
             zipStream.Password = password;  // optional. Null is the same as not setting. Required if using AES.
 
             // This setting will strip the leading part of the folder path in the entries, to
@@ -35,6 +36,7 @@ namespace ZipUtilityStandard.Utils
         private void CompressFolder(string path, ZipOutputStream zipStream, int folderOffset)
         {
             string[] files = Directory.GetFiles(path);
+            ZipConstants.DefaultCodePage = 0; //Setting the encode for .net core
 
             foreach (string filename in files)
             {
@@ -45,7 +47,7 @@ namespace ZipUtilityStandard.Utils
                 entryName = ZipEntry.CleanName(entryName); // Removes drive from name and fixes slash direction
                 ZipEntry newEntry = new ZipEntry(entryName);
                 newEntry.DateTime = fi.LastWriteTime; // Note the zip format stores 2 second granularity
-
+                
                 // Specifying the AESKeySize triggers AES encryption. Allowable values are 0 (off), 128 or 256.
                 // A password on the ZipOutputStream is required if using AES.
                 //   newEntry.AESKeySize = 256;
