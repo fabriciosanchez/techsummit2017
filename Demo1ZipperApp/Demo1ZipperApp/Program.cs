@@ -140,7 +140,7 @@ namespace Demo1ZipperApp
             }
             catch (Exception ex)
             {
-                throw new Exception();
+                throw new Exception(ex.Message);
             }
         }
     }
